@@ -61,19 +61,20 @@ const AddressForm: React.FC<AddressFormProps> = ({
     stateName,
     isEdit
 }) => {
-    let index = 9
-    const [selectedState, setSelectedState] = useState(states[index])
+    const [stateIndex, setStateIndex ] = useState(9)
+    const [selectedState, setSelectedState] = useState(states[stateIndex])
     const [query, setQuery] = useState('')
     const { login,setLogin } = useGlobalContext();
 
     useEffect(() => {
         if(stateName){
-            index = states.findIndex(({id, name}) => {
+            const index = states.findIndex(({id, name}) => {
                 return name === stateName
             })
-            setSelectedState(states[index])
+            setStateIndex(index)
+            setSelectedState(states[stateIndex])
         }
-    },[stateName])
+    },[stateName, stateIndex])
 
     const filteredstate =
         query === ''
