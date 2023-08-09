@@ -4,10 +4,14 @@ import { Menu, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useState } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
+import { useGlobalContext } from '@/app/Context/global-context';
 
 export default function AccountNav() {
   const [isLoading, setIsLoading] = useState(true)
   let phone = localStorage.getItem("phone");
+  const { login, setLogin} = useGlobalContext();
 
   useEffect(()=>{
     setIsLoading(false)
@@ -16,6 +20,28 @@ export default function AccountNav() {
   if (isLoading){
     return null
   }
+
+  const  logout = async() =>{
+    const phone = localStorage.getItem("phone")
+    if(phone){
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/logout`,{
+            phone
+        })
+        
+        if(res){
+            setLogin(false);
+            localStorage.removeItem("accessToken")
+            localStorage.removeItem("user")
+            localStorage.removeItem("cart-storage")
+            localStorage.removeItem("phone")
+            localStorage.removeItem("addresses")
+        }
+       
+        window.location = res.data.url;
+    }else{
+        toast.error("Logout error.")
+    }
+}
   
   return (
     <div className="">
@@ -86,14 +112,14 @@ export default function AccountNav() {
             <div className="px-4 py-2 ">
               <Menu.Item>
                 {({ active }) => (
-                  <Link
-                    href= '/logout'
+                  <button
+                    onClick={logout}
                     className={`${
                       active ? 'bg-white text-orange-500' : 'text-gray-600'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   > 
                     Log Out
-                  </Link>
+                  </button>
                 )}
               </Menu.Item>
             </div>

@@ -56,7 +56,7 @@ const AccountAddresses = () => {
             })
             setStateName("")
         }
-    }, [isEdit])
+    }, [isEdit, addressDefaultValue])
     
     if(isLoading){
         return null
