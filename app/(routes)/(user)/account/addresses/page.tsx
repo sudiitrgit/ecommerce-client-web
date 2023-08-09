@@ -10,6 +10,7 @@ import AccountLeft from "@/components/account-left";
 import AddressForm from './components/address-form';
 import AddressList from './components/address-list';
 import { useGlobalContext } from '@/app/Context/global-context';
+import useAddresses from '@/hooks/use-addresses';
 
 interface addressType  {
     id:string
@@ -29,6 +30,7 @@ const AccountAddresses = () => {
     const [isEdit, setIsEdit] = useState(false)
     const [stateName, setStateName ] = useState("")
     const router = useRouter()
+    const addresses = useAddresses()
     const [addressDefaultValue, setAddressDefaultValue] = useState({
         username: "",
         pincode: "",
@@ -76,9 +78,7 @@ const AccountAddresses = () => {
 
         const editAddressId = sessionStorage.getItem("editAddressId")
         if(editAddressId != null){
-            if(localStorage.getItem("addresses") != null){
-                const addresses = JSON.parse(localStorage.getItem("addresses") || "")
-                const addressToEdit = addresses.filter( (address:addressType)=> {
+                const addressToEdit = addresses.items.filter( (address:addressType)=> {
                     return address.id === editAddressId
                 })
                 
@@ -93,7 +93,6 @@ const AccountAddresses = () => {
                 })
                 setStateName(addressToEdit[0].state)
                 setIsEdit(true)
-            }
         }
         setIsOpen(true)
     }
@@ -146,7 +145,7 @@ const AccountAddresses = () => {
                                     </Dialog.Title>
                                     <p className='text-sm text-gray-500 mt-2 px-2'>This allow us to find you easily and give you timely delivery experience</p>
                                     <div className="mt-2 flex flex-row">
-                                        <AddressForm initialData={addressDefaultValue} stateName={stateName} isEdit={isEdit}/>
+                                        <AddressForm initialData={addressDefaultValue} stateName={stateName} isEdit={isEdit} closeModal={closeModal}/>
                                         <div className="fixed top-0 right-0 mr-4 mt-4 hover:cursor-pointer p-1 text-orange-400 border-2 border-orange-400 rounded-full">
                                             <svg onClick={closeModal} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                                                 <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />

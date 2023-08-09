@@ -1,6 +1,5 @@
 import { Product } from "@/types";
 import { toast } from "react-hot-toast";
-import { number } from "zod";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 

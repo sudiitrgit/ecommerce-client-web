@@ -24,7 +24,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const handleClick = () => {
         router.push(`/product/${data?.id}`);
     }
-
+ 
     const onPreview: MouseEventHandler<HTMLButtonElement> = (event) => {
         event.stopPropagation();
 

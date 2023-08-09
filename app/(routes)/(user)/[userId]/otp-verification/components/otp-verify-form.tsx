@@ -2,17 +2,27 @@
 
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input-otp";
+import useAddresses from "@/hooks/use-addresses";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
-
-
+type AddressType = {
+    id: string,
+    username : string,
+    pincode : string,
+    addressline1 : string,
+    addressline2 : string,
+    landmark : string,
+    city : string,
+    state : string,
+}
 
 const OtpVerifyForm = () => {
 
     const [isLoading, setIsLoading] = useState(true);
+    const address = useAddresses()
 
     useEffect(()=> {     
         setIsLoading(false)
@@ -38,7 +48,12 @@ const OtpVerifyForm = () => {
         if(response.data.user){
             localStorage.setItem("accessToken", response.data.accessToken)
             localStorage.setItem("user", response.data.user)
-            localStorage.setItem("addresses", response.data.addresses)
+            // localStorage.setItem("addresses", response.data.addresses)
+            if(response.data.addresses){
+                response.data.addresses.forEach((item: AddressType)=> {
+                    address.addAddress(item)
+                } )
+            }
             window.location = response.data.url;
         }else{
             window.location = response.data.url;

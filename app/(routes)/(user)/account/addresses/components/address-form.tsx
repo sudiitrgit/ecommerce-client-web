@@ -12,6 +12,7 @@ import { AlertCircle } from "lucide-react";
 
 import { stateType, states } from "@/app/(routes)/(user)/account/addresses/components/state-list";
 import { useGlobalContext } from "@/app/Context/global-context";
+import useAddresses from "@/hooks/use-addresses";
 
 
 type Inputs = {
@@ -54,17 +55,20 @@ interface AddressFormProps {
     initialData: AddressFormValues,
     stateName: string,
     isEdit: boolean
+    closeModal: () => void
 }
 
 const AddressForm: React.FC<AddressFormProps> = ({
     initialData,
     stateName,
-    isEdit
+    isEdit,
+    closeModal,
 }) => {
     const [stateIndex, setStateIndex ] = useState(9)
     const [selectedState, setSelectedState] = useState(states[stateIndex])
     const [query, setQuery] = useState('')
     const { login,setLogin } = useGlobalContext();
+    const addresses = useAddresses()
 
     useEffect(() => {
         if(stateName){
@@ -116,24 +120,28 @@ const AddressForm: React.FC<AddressFormProps> = ({
             
             if(isEdit){
                 const addressEditId = sessionStorage.getItem("editAddressId")
-                const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/user/address/${addressEditId}`, {
-                    data: dataSend
-                })
-
-                if(response){
-                    localStorage.setItem("addresses", response.data.addresses)
-                    sessionStorage.removeItem("editAddressId")
-                    window.location.reload()
-                }else{
-                    toast.error("something went wrong")
+                if(addressEditId){
+                    const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/user/address/${addressEditId}`, {
+                        data: dataSend
+                    })
+    
+                    if(response){
+                        addresses.editAddress(addressEditId, {...data, "state": selectedState.name, "id": addressEditId})
+                        sessionStorage.removeItem("editAddressId")
+                        closeModal()
+                    }else{
+                        toast.error("something went wrong")
+                    }
                 }
+                
             }else{
                 const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/address`, {
                     data: dataSend
                 })
                 if(response){
-                    localStorage.setItem("addresses", response.data.addresses)
-                    window.location.reload()
+                    addresses.addAddress(response.data.address)
+                    closeModal()
+
                 }else{
                     toast.error("something went wrong")
                 }

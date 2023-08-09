@@ -1,6 +1,7 @@
 "use client";
 
 import { useGlobalContext } from '@/app/Context/global-context';
+import useAddresses from '@/hooks/use-addresses';
 import axios from 'axios';
 import { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast';
@@ -26,19 +27,7 @@ const AddressActions: React.FC<AddressActionsProps> = ( {
     const { login,setLogin } = useGlobalContext();
     const [ hide, setHide ] = useState(true)
 
-    let addresses = [{
-        id: "",
-        username: "",
-        addressline1: "",
-        addressline2: "",
-        landmark: "",
-        pincode: "",
-        city: "",
-    }]
-
-    if(localStorage.getItem("addresses") != null){
-        addresses = JSON.parse(localStorage.getItem("addresses") || "")
-    }
+    let addresses = useAddresses()
 
     useEffect(()=>{
         setIsLoading(false)
@@ -61,6 +50,8 @@ const AddressActions: React.FC<AddressActionsProps> = ( {
                 setIsLoading(true)
                 sessionStorage.setItem("editAddressId", addressId)
                 addressFormModalOpen()
+                setIsLoading(false)
+                setHide(true)
             }
         }else{
             setLogin(false)
@@ -82,11 +73,7 @@ const AddressActions: React.FC<AddressActionsProps> = ( {
                     })
 
                     if(res){
-                        const newAddresses = addresses.filter( (address:addressType)=> {
-                            return address.id != addressId
-                        })
-                        localStorage.setItem("addresses", JSON.stringify(newAddresses) )
-                        window.location.reload()
+                        addresses.removeAddress(addressId)
                     }
                 } catch (error) {
                     toast.error("Something went wrong.")

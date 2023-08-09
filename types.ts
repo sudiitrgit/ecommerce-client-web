@@ -36,3 +36,14 @@ export interface User {
     id: string,
     phone: string,
 }
+
+export interface Address {
+    id: string,
+    username : string,
+    pincode : string,
+    addressline1 : string,
+    addressline2 : string,
+    landmark : string,
+    city : string,
+    state : string,
+  }

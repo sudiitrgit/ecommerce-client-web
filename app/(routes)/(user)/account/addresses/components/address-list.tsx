@@ -1,24 +1,18 @@
 import { useEffect, useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
 import AddressActions from './address-actions'
+import useAddresses from '@/hooks/use-addresses'
+
 interface AddressListProps {
     addressFormModalOpen: ()=>void
 }
+
 export default function AddressList({
     addressFormModalOpen
 }: AddressListProps) {
-    let addresses = [{
-        id: "",
-        username: "",
-        addressline1: "",
-        addressline2: "",
-        landmark: "",
-        pincode: "",
-        city: "",
-        state: "",
-      }]
+    const addresses = useAddresses()
     const [isLoading, setIsLoading] = useState(true)
-    const [selected, setSelected] = useState(addresses[0])
+    const [selected, setSelected] = useState(addresses.items[0])
 
     useEffect(()=>{
         setIsLoading(false)
@@ -28,15 +22,11 @@ export default function AddressList({
         return null
     }
 
-    if(localStorage.getItem("addresses") != null){
-        addresses = JSON.parse(localStorage.getItem("addresses") || "")
-    }
-
     return (
         <>
             <RadioGroup value={selected} onChange={setSelected}>
                 <div className="space-y-2">
-                    {addresses.map((address: any) => (
+                    {addresses.items.map((address: any) => (
                         
                         <RadioGroup.Option
                         key={address.id}

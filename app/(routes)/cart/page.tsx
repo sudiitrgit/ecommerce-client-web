@@ -18,7 +18,6 @@ const CartPage = () => {
         return null;
     }
 
-
     return ( 
         <div className="">
             <Container>
