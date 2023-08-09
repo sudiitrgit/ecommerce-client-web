@@ -10,8 +10,9 @@ import { useGlobalContext } from '@/app/Context/global-context';
 
 export default function AccountNav() {
   const [isLoading, setIsLoading] = useState(true)
-  let phone = localStorage.getItem("phone");
   const { login, setLogin} = useGlobalContext();
+
+  const phone = localStorage.getItem("phone");
 
   useEffect(()=>{
     setIsLoading(false)
@@ -31,10 +32,11 @@ export default function AccountNav() {
         if(res){
             setLogin(false);
             localStorage.removeItem("accessToken")
-            localStorage.removeItem("user")
-            localStorage.removeItem("cart-storage")
             localStorage.removeItem("phone")
+
             localStorage.removeItem("addresses")
+            localStorage.removeItem("user-storage")
+            localStorage.removeItem("cart-storage")
         }
        
         window.location = res.data.url;

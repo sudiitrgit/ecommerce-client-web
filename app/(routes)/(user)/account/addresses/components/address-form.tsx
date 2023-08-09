@@ -13,6 +13,7 @@ import { AlertCircle } from "lucide-react";
 import { stateType, states } from "@/app/(routes)/(user)/account/addresses/components/state-list";
 import { useGlobalContext } from "@/app/Context/global-context";
 import useAddresses from "@/hooks/use-addresses";
+import useUser from "@/hooks/use-user";
 
 
 type Inputs = {
@@ -69,6 +70,7 @@ const AddressForm: React.FC<AddressFormProps> = ({
     const [query, setQuery] = useState('')
     const { login,setLogin } = useGlobalContext();
     const addresses = useAddresses()
+    const user = useUser()
 
     useEffect(() => {
         if(stateName){
@@ -109,13 +111,12 @@ const AddressForm: React.FC<AddressFormProps> = ({
     })
     const onSubmit = async (data: Inputs) => {
         
-        const user = JSON.parse(localStorage.getItem("user") || "")
-        if( !user || !login ){
+        if( user.items.length === 0 || !login ){
             setLogin(false)
         }else{
-            const userId = user?.id || ""
-            const accessToken = user?.accessToken || ""
-            const phone = user?.phone || ""
+            const userId = user.items[0].id
+            const accessToken = user.items[0].accessToken
+            const phone = user.items[0].phone
             const dataSend = {...data, "state": selectedState.name, "userId": userId, "phone":phone, "accessToken": accessToken,}
             
             if(isEdit){

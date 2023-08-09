@@ -9,12 +9,14 @@ import Button from "@/components/ui/button";
 import Currency from "@/components/ui/currency";
 import useCart from "@/hooks/use-cart";
 import { useGlobalContext } from "@/app/Context/global-context";
+import useUser from "@/hooks/use-user";
 
 const Summary = () => {
     const searchParams = useSearchParams();
     const items = useCart((state) => state.items);
     const removeAll = useCart((state) => state.removeAll)
     const { login,setLogin } = useGlobalContext();
+    const user = useUser()
     const router = useRouter()
 
     useEffect(() => {
@@ -31,13 +33,12 @@ const Summary = () => {
 
     const onCheckout = async () => {
 
-        if( !login ){ 
+        if( user.items.length === 0 || !login ){ 
             router.push("/login")
         }else{
-            const user = JSON.parse(localStorage.getItem("user") || "")
-            const userId = user?.id || ""
-            const accessToken = user?.accessToken || ""
-            const phone = user?.phone || ""
+            const userId = user.items[0].id
+            const accessToken = user.items[0].accessToken
+            const phone = user.items[0].phone
             const productAndQuantity = items.map((item) => ({"productId":item.product.id, "quantity": item.quantity}))
             console.log(productAndQuantity)
             const dataSend = {"productAndQuantity": productAndQuantity, "userId": userId, "phone":phone, "accessToken": accessToken,}

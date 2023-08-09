@@ -7,22 +7,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "react-hot-toast";
-
-type AddressType = {
-    id: string,
-    username : string,
-    pincode : string,
-    addressline1 : string,
-    addressline2 : string,
-    landmark : string,
-    city : string,
-    state : string,
-}
+import { Address } from "@/types";
+import useUser from "@/hooks/use-user";
 
 const OtpVerifyForm = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const address = useAddresses()
+    const user = useUser()
 
     useEffect(()=> {     
         setIsLoading(false)
@@ -45,12 +37,11 @@ const OtpVerifyForm = () => {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/otp-verification`, {
             data,
         });
-        if(response.data.user){
+        if(response.data){
             localStorage.setItem("accessToken", response.data.accessToken)
-            localStorage.setItem("user", response.data.user)
-            // localStorage.setItem("addresses", response.data.addresses)
+            user.addUser(response.data.user)
             if(response.data.addresses){
-                response.data.addresses.forEach((item: AddressType)=> {
+                response.data.addresses.forEach((item: Address)=> {
                     address.addAddress(item)
                 } )
             }

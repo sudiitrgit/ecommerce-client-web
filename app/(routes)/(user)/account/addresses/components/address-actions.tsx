@@ -2,6 +2,7 @@
 
 import { useGlobalContext } from '@/app/Context/global-context';
 import useAddresses from '@/hooks/use-addresses';
+import useUser from '@/hooks/use-user';
 import axios from 'axios';
 import { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast';
@@ -26,8 +27,8 @@ const AddressActions: React.FC<AddressActionsProps> = ( {
     const [isLoading, setIsLoading] = useState(true)
     const { login,setLogin } = useGlobalContext();
     const [ hide, setHide ] = useState(true)
-
-    let addresses = useAddresses()
+    const addresses = useAddresses()
+    const user = useUser()
 
     useEffect(()=>{
         setIsLoading(false)
@@ -44,8 +45,8 @@ const AddressActions: React.FC<AddressActionsProps> = ( {
     }
 
     const editAddress = () =>{
-        const user = JSON.parse(localStorage.getItem("user") || "")
-        if(user && login){
+        
+        if(user.items.length === 1 && login){
             if(addressId){
                 setIsLoading(true)
                 sessionStorage.setItem("editAddressId", addressId)
@@ -59,12 +60,11 @@ const AddressActions: React.FC<AddressActionsProps> = ( {
     }
 
     const deleteAddress = async () => {
-        const user = JSON.parse(localStorage.getItem("user") || "")
-        if(user && login){
+        if(user.items.length === 1 && login){
             if(addressId){
-                const userId = user?.id || ""
-                const accessToken = user?.accessToken || ""
-                const phone = user?.phone || ""
+                const userId = user.items[0].id
+                const accessToken = user.items[0].accessToken
+                const phone = user.items[0].phone
                 const data = {"userId": userId, "phone":phone, "accessToken": accessToken,}
                 try {
                     setIsLoading(true)
@@ -77,8 +77,6 @@ const AddressActions: React.FC<AddressActionsProps> = ( {
                     }
                 } catch (error) {
                     toast.error("Something went wrong.")
-                } finally{
-                    
                 }
             }
         }else{

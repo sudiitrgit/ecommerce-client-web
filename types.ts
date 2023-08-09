@@ -35,6 +35,8 @@ export interface Size {
 export interface User {
     id: string,
     phone: string,
+    accessToken: string,
+    storeId: string
 }
 
 export interface Address {

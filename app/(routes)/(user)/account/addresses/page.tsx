@@ -3,7 +3,7 @@
 import { useState, useEffect, Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { Plus } from 'lucide-react';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import AccountContainer from "@/components/account-container";
 import AccountLeft from "@/components/account-left";

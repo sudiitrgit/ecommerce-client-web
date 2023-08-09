@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import AccountContainer from "@/components/account-container";
 import AccountLeft from "@/components/account-left";
 import { useGlobalContext } from '@/app/Context/global-context';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 
 const AccountOrders = () => {

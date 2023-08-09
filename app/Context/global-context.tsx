@@ -1,5 +1,6 @@
 "use client"
 
+import useUser from '@/hooks/use-user';
 import { useState, createContext, useContext, useEffect, ReactNode } from 'react';
 
 interface ContextProps {
@@ -18,13 +19,15 @@ export const GlobalContext = createContext<ContextProps>({
 
 export const GlobalContextProvider = ({ children }: Props) => {
   const [login, setLogin] = useState(false);
+  const user = useUser()
   
   useEffect(() => {    
-      const userInfo = localStorage.getItem("user")
-      if(userInfo){
+      if(user.items.length === 1){
           setLogin(true)
-      }   
-  }, [])
+      }else{
+        setLogin(false)
+      } 
+  }, [login])
 
   return (
     <GlobalContext.Provider
