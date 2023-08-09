@@ -27,7 +27,7 @@ export const GlobalContextProvider = ({ children }: Props) => {
       }else{
         setLogin(false)
       } 
-  }, [login])
+  }, [login, user.items.length])
 
   return (
     <GlobalContext.Provider
