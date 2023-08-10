@@ -1,4 +1,5 @@
 import { Product } from "@/types";
+import axios from "axios";
 import qs from "query-string";
 
 const URL = `${process.env.NEXT_PUBLIC_API_URL}/products`;
@@ -20,9 +21,9 @@ const getProducts = async (query: Query) : Promise<Product[]> => {
         }
     })
 
-    const res = await fetch(url)
+    const res = await axios.get(url)
 
-    return res.json()
+    return res.data
 }
 
 export default getProducts

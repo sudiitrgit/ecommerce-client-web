@@ -44,21 +44,6 @@ const AccountAddresses = () => {
     useEffect(() => {
         setIsLoading(false)
     }, [])
-
-    useEffect(() => {
-        if(!isEdit){
-            setAddressDefaultValue({
-                ...addressDefaultValue,
-                username: "",
-                pincode: "",
-                addressline1: "",
-                addressline2: "",
-                landmark: "",
-                city: "",
-            })
-            setStateName("")
-        }
-    }, [isEdit, addressDefaultValue])
     
     if(isLoading){
         return null

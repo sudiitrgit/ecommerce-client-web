@@ -27,11 +27,10 @@ const OtpVerifyForm = () => {
             errors
         },
     } = useForm<FieldValues>()
-    
-    const phone = localStorage.getItem("phone");
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         setIsLoading(true);
+        const phone = localStorage.getItem("phone");
         data.phone = phone;
 
         const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/otp-verification`, {
@@ -54,7 +53,7 @@ const OtpVerifyForm = () => {
     }
 
     const onResend = async () => {
-        
+        const phone = localStorage.getItem("phone");
         const data = {"phone": phone}
         if(!data.phone){
             toast.error("Phone no is required")
