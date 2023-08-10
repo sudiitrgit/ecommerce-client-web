@@ -42,7 +42,7 @@ const Summary = () => {
             const productAndQuantity = items.map((item) => ({"productId":item.product.id, "quantity": item.quantity}))
             console.log(productAndQuantity)
             const dataSend = {"productAndQuantity": productAndQuantity, "userId": userId, "phone":phone, "accessToken": accessToken,}
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout/`, {
                 data: dataSend
             }); 
             removeAll();  
