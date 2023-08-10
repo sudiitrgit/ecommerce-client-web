@@ -122,7 +122,7 @@ const AddressForm: React.FC<AddressFormProps> = ({
             if(isEdit){
                 const addressEditId = sessionStorage.getItem("editAddressId")
                 if(addressEditId){
-                    const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/user/address/${addressEditId}/`, {
+                    const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/user/address/${addressEditId}`, {
                         data: dataSend
                     })
     
@@ -136,7 +136,7 @@ const AddressForm: React.FC<AddressFormProps> = ({
                 }
                 
             }else{
-                const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/address/`, {
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/address`, {
                     data: dataSend
                 })
                 if(response){

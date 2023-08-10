@@ -33,7 +33,7 @@ const OtpVerifyForm = () => {
         const phone = localStorage.getItem("phone");
         data.phone = phone;
 
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/otp-verification/`, {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/otp-verification`, {
             data,
         });
         if(response.data){
