@@ -58,7 +58,7 @@ const OtpVerifyForm = () => {
         if(!data.phone){
             toast.error("Phone no is required")
         }else{
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/otp-send/`, {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/otp-send`, {
                 data
             });
             if(response){
