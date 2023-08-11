@@ -49,3 +49,12 @@ export interface Address {
     city : string,
     state : string,
   }
+
+export interface Order  {
+    id: string,
+    isPaid: boolean,
+    totalPrice: string,
+    products: string,
+    isDelivered: boolean
+    createdAt:string
+} 

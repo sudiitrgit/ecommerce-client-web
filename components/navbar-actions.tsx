@@ -12,6 +12,7 @@ import useCart from "@/hooks/use-cart";
 import AccountNav from "@/components/account-nav";
 import useAddresses from "@/hooks/use-addresses";
 import useUser from "@/hooks/use-user";
+import useOrders from "@/hooks/use-orders";
 
 const NavbarActions = () => {
     const [isMounted, setIsMounted] = useState(false);
@@ -32,6 +33,7 @@ const NavbarActions = () => {
     const cart = useCart()
     const address = useAddresses()
     const user = useUser()
+    const orders = useOrders()
 
     if (!isMounted){
         return null;

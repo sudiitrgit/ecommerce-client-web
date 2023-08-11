@@ -7,14 +7,16 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { Address } from "@/types";
+import { Address, Order } from "@/types";
 import useUser from "@/hooks/use-user";
+import useOrders from "@/hooks/use-orders";
 
 const OtpVerifyForm = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const address = useAddresses()
     const user = useUser()
+    const orders = useOrders()
 
     useEffect(()=> {     
         setIsLoading(false)
@@ -42,6 +44,11 @@ const OtpVerifyForm = () => {
             if(response.data.addresses){
                 response.data.addresses.forEach((item: Address)=> {
                     address.addAddress(item)
+                } )
+            }
+            if(response.data.orders){
+                response.data.orders.forEach((item: Order)=> {
+                    orders.addOrder(item)
                 } )
             }
             window.location = response.data.url;
