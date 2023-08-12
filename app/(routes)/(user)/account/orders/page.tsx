@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 import axios from "axios";
 import { RotateCw } from "lucide-react";
 import { useEffect, useState } from "react";
-import { MouseEventHandler } from "react";
 
 const AccountOrders =  () => {
     const [isLoading, setIsLoading] = useState(true)
