@@ -71,7 +71,7 @@ const Summary = () => {
     return ( 
         <>
             <div className="mt-16 rounded-lg  px-4 py-6 sm:p-6 lg:col-span-6 lg:mt-0 lg:p-8">
-                <div className="bg-white border-orange-300 border-2 mb-6 rounded-md w-full">
+                {login && <div className="bg-white border-orange-300 border-2 mb-6 rounded-md w-full">
                     <div className="w-full p-4 bg-gray-50 rounded-md">
                         <p className='text-lg font-semibold text-gray-800'>choose Address</p>
                         <RadioGroup value={selected} onChange={setSelected}>
@@ -136,7 +136,7 @@ const Summary = () => {
                             </div>
                         </RadioGroup>
                     </div>
-                </div>
+                </div>}
                 <div className="bg-gray-50 p-4 rounded-md">
                     <h2 className="text-lg font-medium text-gray-900">
                         Order Summary
