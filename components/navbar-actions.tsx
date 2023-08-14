@@ -42,7 +42,7 @@ const NavbarActions = () => {
     return ( 
         <div className="ml-auto flex items-center gap-x-4 ">
             <div className='ml-auto mr-0 flex items-center gap-x-4'>
-                    {!login && userRoutes.map((route) => (
+                    {(!login || user.items.length === 0) && userRoutes.map((route) => (
                         <Link
                             key={route.href}
                             href={route.href}
@@ -54,7 +54,7 @@ const NavbarActions = () => {
                             {route.label}
                         </Link>
                     ))}
-                    {login && (
+                    {(login || user.items.length === 1) && (
                         <AccountNav/>
                     )}
                     

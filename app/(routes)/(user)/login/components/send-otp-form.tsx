@@ -1,17 +1,26 @@
 "use client";
 
-import Button from "@/components/ui/button";
-import Input from "@/components/ui/input-mobile";
 import axios from "axios";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
+import { useGlobalContext } from "@/app/Context/global-context";
+import Button from "@/components/ui/button";
+import Input from "@/components/ui/input-mobile";
+import { redirect } from "next/navigation";
 
 
 
 
 const SendOtpForm = () => {
     const [isLoading, setIsLoading] = useState(false);
+    const { login, setLogin} = useGlobalContext();
+
+    useEffect(() => {
+        if(login){
+            redirect("/")
+        }
+    }, [login])
 
     const {
         register,

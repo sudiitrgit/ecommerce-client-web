@@ -7,6 +7,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useGlobalContext } from '@/app/Context/global-context';
+import LogoutFunction from '@/actions/logout';
 
 export default function AccountNav() {
   const [isLoading, setIsLoading] = useState(true)
@@ -31,12 +32,7 @@ export default function AccountNav() {
         
         if(res){
             setLogin(false);
-            localStorage.removeItem("accessToken")
-            localStorage.removeItem("phone")
-            localStorage.removeItem("addresses")
-            localStorage.removeItem("orders-storage")
-            localStorage.removeItem("user-storage")
-            localStorage.removeItem("cart-storage")
+            LogoutFunction()
         }
        
         window.location = res.data.url;

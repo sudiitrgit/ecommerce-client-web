@@ -32,7 +32,6 @@ const Summary = () => {
         if(searchParams.get("canceled")){
             toast.error("We are not delivering currently this location.")
         }
-        console.log(selected)
 
     }, [searchParams, removeAll])
 

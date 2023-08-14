@@ -10,6 +10,8 @@ import { toast } from "react-hot-toast";
 import { Address, Order } from "@/types";
 import useUser from "@/hooks/use-user";
 import useOrders from "@/hooks/use-orders";
+import { useGlobalContext } from "@/app/Context/global-context";
+import { redirect } from "next/navigation";
 
 const OtpVerifyForm = () => {
 
@@ -17,6 +19,13 @@ const OtpVerifyForm = () => {
     const address = useAddresses()
     const user = useUser()
     const orders = useOrders()
+    const { login, setLogin} = useGlobalContext();
+
+    useEffect(() => {
+        if(login){
+            redirect("/")
+        }
+    }, [login])
 
     useEffect(()=> {     
         setIsLoading(false)
